@@ -4,7 +4,7 @@ from .views import CarViewSet, CarPriceViewSet
 
 
 router = SimpleRouter()
-router.register('', CarViewSet, basename='car_car')
-router.register('', CarPriceViewSet, basename='car_car_price')
+router.register('price', CarPriceViewSet, basename='car_price')
+router.register('', CarViewSet, basename='car')
 
 urlpatterns = router.urls

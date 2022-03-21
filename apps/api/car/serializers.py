@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
-from apps.models.car import Car, CarPrice
+from apps.models import Car, CarPrice
+from apps.api.wallets.serializers import CurrencySerializer
 
 
 class CarSerializer(serializers.ModelSerializer):
@@ -10,6 +11,9 @@ class CarSerializer(serializers.ModelSerializer):
 
 
 class CarPriceSerializer(serializers.ModelSerializer):
+    currency = CurrencySerializer(read_only=True)
+    car = CarSerializer(read_only=True)
+
     class Meta:
         model = CarPrice
         fields = '__all__'

@@ -14,4 +14,4 @@ RUN pipenv install --system --deploy
 
 COPY . /usr/src/app
 WORKDIR /usr/src/app/
-ENTRYPOINT ["/bin/sh", "entrypoint.sh"]
+ENTRYPOINT ["entrypoint.sh"]

@@ -1,3 +1,4 @@
+
 version: '3.7'
 
 services:
@@ -22,5 +23,3 @@ services:
     restart: on-failure
     ports:
       - "30003:5432"
-
-

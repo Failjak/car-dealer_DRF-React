@@ -1,26 +1,14 @@
-from rest_framework.mixins import RetrieveModelMixin, UpdateModelMixin, CreateModelMixin, ListModelMixin, \
-    DestroyModelMixin
-from rest_framework.viewsets import GenericViewSet
+from rest_framework.viewsets import ModelViewSet
 
-from apps.models.car import Car, CarPrice
+from apps.models import Car, CarPrice
 from .serializers import CarSerializer, CarPriceSerializer
 
 
-class CarViewSet(ListModelMixin,
-                 RetrieveModelMixin,
-                 UpdateModelMixin,
-                 CreateModelMixin,
-                 DestroyModelMixin,
-                 GenericViewSet):
+class CarViewSet(ModelViewSet):
     queryset = Car.objects.all()
     serializer_class = CarSerializer
 
 
-class CarPriceViewSet(ListModelMixin,
-                      RetrieveModelMixin,
-                      UpdateModelMixin,
-                      CreateModelMixin,
-                      DestroyModelMixin,
-                      GenericViewSet):
+class CarPriceViewSet(ModelViewSet):
     queryset = CarPrice.objects.all()
     serializer_class = CarPriceSerializer

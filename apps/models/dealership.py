@@ -19,10 +19,8 @@ class DealerAddress(models.Model):
         related_name='dealer_address'
     )
 
-    flat_no = models.SmallIntegerField(null=True)
     building = models.CharField(max_length=300, help_text='Building number or name')
     street = models.CharField(max_length=300)
     area = models.CharField(max_length=300, help_text='Area, state, province')
     city = models.CharField(max_length=200)
     country = models.CharField(max_length=2, help_text='ISO2 country code')
-    postal_code = models.CharField(max_length=16, blank=True)

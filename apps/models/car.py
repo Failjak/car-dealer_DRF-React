@@ -53,14 +53,14 @@ class CarPrice(models.Model):
     car = models.ForeignKey(
         'Car',
         related_name='price',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
     )
 
     currency = models.ForeignKey(
         'Currency',
         on_delete=models.SET_NULL,
         blank=True,
-        null=True
+        null=True,
     )
 
     price = models.DecimalField(max_digits=7, decimal_places=2)
