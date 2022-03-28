@@ -6,9 +6,15 @@ from apps.api.car.serializers import CarPriceSerializer
 # TODO custom serializer to update/add new cars to delaership
 
 
-class DealerSerializer(serializers.ModelSerializer):
+class DealerListSerializer(serializers.ModelSerializer):
     car_prices = CarPriceSerializer(read_only=True, many=True)
 
+    class Meta:
+        model = Dealer
+        fields = '__all__'
+
+
+class DealerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dealer
         fields = '__all__'

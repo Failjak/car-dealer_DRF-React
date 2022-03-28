@@ -8,6 +8,9 @@ class Dealer(models.Model):
     name = models.CharField(max_length=255)
     car_prices = models.ManyToManyField('CarPrice')
 
+    def __str__(self):
+        return self.name
+
 
 class DealerAddress(models.Model):
     """
