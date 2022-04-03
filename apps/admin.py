@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.models import Profile, Dealer, DealerAddress, Car, CarPrice, Currency
+from apps.models import Profile, Dealer, DealerAddress, Car, CarPrice
 
 
 @admin.register(Car, CarPrice)
@@ -15,9 +15,4 @@ class DealerAdmin(admin.ModelAdmin):
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(Currency)
-class CurrencyAdmin(admin.ModelAdmin):
     pass
