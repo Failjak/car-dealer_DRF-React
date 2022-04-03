@@ -1,6 +1,8 @@
 from django.db import models
 
+from enumchoicefield import EnumChoiceField
 from apps.mixins.timestamp import TimeStampModelMixin
+from apps.common.types import CurrencyType
 
 
 class Offer(TimeStampModelMixin):
@@ -22,5 +24,5 @@ class Offer(TimeStampModelMixin):
         on_delete=models.PROTECT
     )
 
-    # TODO money field
-    # price =
+    currency = EnumChoiceField(CurrencyType, default=CurrencyType.USD)
+    price = models.DecimalField(max_digits=7, decimal_places=2)

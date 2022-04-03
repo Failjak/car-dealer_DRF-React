@@ -27,3 +27,6 @@ class DealerAddress(models.Model):
     area = models.CharField(max_length=300, help_text='Area, state, province')
     city = models.CharField(max_length=200)
     country = models.CharField(max_length=2, help_text='ISO2 country code')
+
+    def __str__(self):
+        return "%s - %s, %s" % (self.dealer.name, self.country, self.city)

@@ -1,5 +1,9 @@
+from rest_framework.routers import SimpleRouter
+
+from .views import OfferGetView
 
 
-urlpatterns = [
+router = SimpleRouter()
+router.register('', OfferGetView, basename='offer-get')
 
-]
+urlpatterns = router.urls
