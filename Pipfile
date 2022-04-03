@@ -10,6 +10,7 @@ psycopg2-binary = "*"
 drf-yasg = "*"
 djangorestframework-simplejwt = "*"
 django-enumchoicefield = "*"
+gunicorn = "*"
 
 [dev-packages]
 

@@ -1,5 +1,5 @@
 FROM node:16.14.2-alpine
 
-WORKDIR /usr/src/client
+WORKDIR /react
 COPY . .
 RUN npm run build
