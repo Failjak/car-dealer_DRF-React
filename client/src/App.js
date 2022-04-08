@@ -5,6 +5,7 @@ import {
   Route,
 } from "react-router-dom";
 import Auth from "./screens/Auth";
+import Car from "./screens/Car";
 import Profile from "./screens/Profile";
 
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
         <Routes>
           <Route path="/auth" element={<Auth />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/car/:id" element={<Car />} />
         </Routes>
       </div>
     </Router>

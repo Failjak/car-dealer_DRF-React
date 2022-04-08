@@ -49,3 +49,29 @@
     cursor: pointer;
     box-shadow: 0 0 10px lightgrey;
 }
+
+.car__modal{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    box-shadow: 0 0 5px lightgrey;
+    background-color: lightgrey;
+}
+
+.modal__btn{
+    margin: 10px 10px 0 0;
+}
+
+.modal_car_info{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal_car_info span{
+    margin-top: 5px;
+}

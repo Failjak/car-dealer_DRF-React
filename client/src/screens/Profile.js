@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import '../css/profile.css'
+import Modal from 'react-modal'
 
 const Profile = () => {
     const token = 0
@@ -8,21 +9,26 @@ const Profile = () => {
     const [ifno, setInfo] = useState({})
     const [carInfo, setCarInfo] = useState([
         {
+            id: 0,
             name: 'ersr sersr ser',
             year: 2010,
             date: '19 jokoj, 2020 ijsdf'
         },
         {
+            id: 1,
             name: 'ersr sersr ser',
             year: 2010,
             date: '19 jokoj, 2020 ijsdf'
         },
         {
+            id: 2,
             name: 'ersr sersr ser',
             year: 2010,
             date: '19 jokoj, 2020 ijsdf'
         },
     ])
+    const [openModal, setOpenModal] = useState(false)
+    const [currentCar, setCurrentCar] = useState(0)
 
     const navigate = useNavigate()
 
@@ -107,7 +113,11 @@ const Profile = () => {
             <div className='cars'>
                 {
                     carInfo.map(elem => (
-                        <div onClick={() => navigate(`/car_info?id=${elem.id}`, { replace: true })} className='car__card' key={elem.id}>
+                        <div onClick={() => {
+                            setCurrentCar(elem)
+                            setOpenModal(true)
+                        }} className='car__card' key={elem.id}>
+                            {/* <div onClick={() => navigate(`/car/${elem.id}`, { replace: true })} className='car__card' key={elem.id}> */}
                             <h2>{elem.name}</h2>
                             <p>{elem.year}</p>
                             <p>{elem.date}</p>
@@ -115,6 +125,21 @@ const Profile = () => {
                     ))
                 }
             </div>
+            <Modal
+                isOpen={openModal}
+                // onAfterOpen={afterOpenModal}
+                // onRequestClose={closeModal}
+                className='car__modal'
+                contentLabel="Example Modal"
+            >
+                {/* <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Hello</h2> */}
+                <button className='modal__btn' onClick={() => setOpenModal(false)}>close</button>
+                <div className='modal_car_info'>
+                    <h2>{currentCar.name}</h2>
+                    <p>{currentCar.year}</p>
+                    <p>{currentCar.date}</p>
+                </div>
+            </Modal>
         </div>
     )
 
