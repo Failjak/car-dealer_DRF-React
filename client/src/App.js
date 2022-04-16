@@ -6,6 +6,7 @@ import {
   Link
 } from "react-router-dom";
 import Auth from "./screens/Auth";
+import Car from "./screens/Car";
 import Profile from "./screens/Profile";
 import Dillers from "./screens/Dillers";
 import Diller from "./screens/Diller";
