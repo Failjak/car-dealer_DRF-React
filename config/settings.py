@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders',
     'drf_yasg',
     'apps.registration',
     'apps',
@@ -29,6 +30,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -69,8 +71,8 @@ DATABASES = {
         "NAME": os.environ.get("DB_NAME", 'dealership'),
         "USER": os.environ.get("DB_USER", 'postgres'),
         "PASSWORD": os.environ.get("DB_USER_PASS", 'postgres'),
-        "HOST": os.environ.get("DB_HOST", "db_dealer"),
-        "PORT": os.environ.get("DB_PORT", "5432"),
+        "HOST": os.environ.get("DB_HOST", "0.0.0.0"),
+        "PORT": os.environ.get("DB_PORT", "5445"),
     }
 }
 
@@ -117,3 +119,20 @@ REST_FRAMEWORK = {
     # ),
     # "EXCEPTION_HANDLER": "apps.common.errors.utils.rest_framework_exception_handler",
 }
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8080",
+    "http://localhost:8000",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
