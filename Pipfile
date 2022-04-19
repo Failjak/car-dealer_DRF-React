@@ -12,6 +12,7 @@ djangorestframework-simplejwt = "*"
 django-enumchoicefield = "*"
 gunicorn = "*"
 django-cors-headers = "*"
+django-environ = "*"
 
 [dev-packages]
 

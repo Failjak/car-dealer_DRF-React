@@ -1,16 +1,21 @@
 from pathlib import Path
 import os
+import environ
 import sys
 
+env = environ.Env()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.join(BASE_DIR, "apps"))
 
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-^3tnhm6i(k1#c0g17hehw-l$2ms!=271i3db!2zibfz(sfbt##')
+# SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-^3tnhm6i(k1#c0g17hehw-l$2ms!=271i3db!2zibfz(sfbt##')
+SECRET_KEY = env('DJANGO_SECRET_KEY', default='django-insecure-$lko+#jpt#ehi5=ms9(6s%&6fsg%r2ag2xu_2zj1ibsj$pckud')
 
-DEBUG = int(os.environ.get('DEBUG', default=1))
+# DEBUG = int(os.environ.get('DEBUG', default=1))
+DEBUG = env.bool("DJANGO_DEBUG", True)
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1 0.0.0.0 localhost').split(' ')
+# ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1 0.0.0.0 localhost').split(' ')
+ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=[])
 
 
 INSTALLED_APPS = [
@@ -66,15 +71,24 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # }
 
 DATABASES = {
-    "default": {
-        "ENGINE": os.environ.get("DB_ENGINE", 'django.db.backends.postgresql'),
-        "NAME": os.environ.get("DB_NAME", 'dealership'),
-        "USER": os.environ.get("DB_USER", 'postgres'),
-        "PASSWORD": os.environ.get("DB_USER_PASS", 'postgres'),
-        "HOST": os.environ.get("DB_HOST", "0.0.0.0"),
-        "PORT": os.environ.get("DB_PORT", "5445"),
+    # "default": {
+    #     "ENGINE": os.environ.get("DB_ENGINE", 'django.db.backends.postgresql'),
+    #     "NAME": os.environ.get("DB_NAME", 'dealership'),
+    #     "USER": os.environ.get("DB_USER", 'postgres'),
+    #     "PASSWORD": os.environ.get("DB_USER_PASS", 'postgres'),
+    #     "HOST": os.environ.get("DB_HOST", "0.0.0.0"),
+    #     "PORT": os.environ.get("DB_PORT", "5445"),
+    # }
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'dealership',
+        'USER': 'mysql',
+        'PASSWORD': 'mysql',
     }
 }
+if "DATABASE_URL" in env:
+    DATABASES['default'] = env.db('DATABASE_URL')
+    DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 AUTH_PASSWORD_VALIDATORS = [
     {
