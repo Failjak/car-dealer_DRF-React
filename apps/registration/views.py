@@ -2,6 +2,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import generics, status
 
+from apps.models import Profile
 from .serializers import UserRegistrationSerializer, UserSerializer
 
 
@@ -15,7 +16,6 @@ class UserRegistration(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
 
-        from apps.models import Profile
         Profile.objects.create(user=user)
 
         return Response(
@@ -23,6 +23,5 @@ class UserRegistration(generics.GenericAPIView):
                 'user': UserSerializer(user).data,
                 'message': 'User has been created successfully!'
             },
-            # headers=headers,
             status=status.HTTP_201_CREATED
         )

@@ -21,7 +21,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     def create(self, validated_date):
         user = User.objects.create_user(
-            validated_date['username'],
+            username=validated_date['username'],
             password=validated_date['password'],
             first_name=validated_date['first_name'],
             last_name=validated_date['last_name'],
