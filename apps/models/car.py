@@ -1,7 +1,6 @@
 import datetime
 from django.utils.translation import gettext as _
 from django.db import models
-from enumchoicefield import EnumChoiceField
 
 from apps.common.types import CurrencyType
 
@@ -59,7 +58,11 @@ class CarPrice(models.Model):
         on_delete=models.CASCADE,
     )
 
-    currency = EnumChoiceField(CurrencyType, default=CurrencyType.USD)
+    currency = models.CharField(
+        choices=CurrencyType.choices(),
+        default=CurrencyType.USD,
+        max_length=6,
+    )
     price = models.DecimalField(max_digits=7, decimal_places=2)
     count = models.PositiveSmallIntegerField()
 

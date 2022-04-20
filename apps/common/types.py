@@ -6,6 +6,10 @@ class CurrencyType(Enum):
     BYN = "BYN"
     RUB = "RUB"
 
+    @classmethod
+    def choices(cls):
+        return tuple((i.name, i.value) for i in cls)
+
 
 class CurrencyRate(Enum):
     USD = 1
