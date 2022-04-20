@@ -11,6 +11,7 @@ drf-yasg = "*"
 djangorestframework-simplejwt = "*"
 django-enumchoicefield = "*"
 gunicorn = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 
