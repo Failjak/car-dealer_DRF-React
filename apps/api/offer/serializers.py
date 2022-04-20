@@ -2,14 +2,14 @@ from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
 from apps.registration.serializers import ProfileSerializer
-from ..car.serializers import CarSerializer
+from ..car.serializers import CarSerializer, CarPriceSerializer
 from ..dealer.serializers import DealerSerializer
 from apps.models import Offer
 
 
 class OfferListSerializer(ModelSerializer):
     profile = ProfileSerializer()
-    car = CarSerializer()
+    car = CarPriceSerializer()
     dealer = DealerSerializer()
 
     class Meta:
@@ -23,7 +23,6 @@ class OfferSerializer(ModelSerializer):
         fields = '__all__'
 
     def validate(self, attrs):
-        dealer_cars = [cp.car for cp in attrs['dealer'].car_prices.all()]
-        if attrs['car'] not in dealer_cars:
+        if attrs.get('car') not in attrs.get('dealer').car_prices.all():
             raise serializers.ValidationError({"car": "Does not belong to this dealer"})
         return attrs

@@ -1,7 +1,6 @@
 from django.db import models
 
 from apps.mixins.timestamp import TimeStampModelMixin
-from apps.common.types import CurrencyType
 
 
 class Offer(TimeStampModelMixin):
@@ -18,17 +17,10 @@ class Offer(TimeStampModelMixin):
     )
 
     car = models.ForeignKey(
-        'apps.Car',
+        'apps.CarPrice',
         related_name='offer',
         on_delete=models.PROTECT
     )
-
-    currency = models.CharField(
-        choices=CurrencyType.choices(),
-        default=CurrencyType.USD,
-        max_length=6
-    )
-    price = models.DecimalField(max_digits=7, decimal_places=2)
 
     def __str__(self):
         return f"Offer to {self.profile.user.username}, ({self.id})"
