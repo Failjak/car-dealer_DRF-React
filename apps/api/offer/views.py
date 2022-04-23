@@ -11,7 +11,7 @@ class OfferGetView(ListModelMixin,
                    RetrieveModelMixin,
                    CreateModelMixin,
                    GenericViewSet):
-    queryset = Offer.objects.all()
+    queryset = Offer.objects.order_by('-created_at').all()
 
     def get_serializer_class(self):
         if self.action in ('list', 'retrieve'):
