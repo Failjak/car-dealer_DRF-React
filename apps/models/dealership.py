@@ -3,7 +3,7 @@ from django.db import models
 
 class Dealer(models.Model):
     """
-    Dealer information
+    Diller information
     """
     name = models.CharField(max_length=255)
     car_prices = models.ManyToManyField('CarPrice')
@@ -14,7 +14,7 @@ class Dealer(models.Model):
 
 class DealerAddress(models.Model):
     """
-    Dealer address information model class
+    Diller address information model class
     """
     dealer = models.ForeignKey(
         'Dealer',

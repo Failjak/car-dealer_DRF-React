@@ -7,6 +7,8 @@ services:
       - ./postgres_data:/var/lib/postgresql/data/
     ports:
       - "5445:5432"
+    env_file:
+      - .env
     restart: on-failure
 
   backend:
