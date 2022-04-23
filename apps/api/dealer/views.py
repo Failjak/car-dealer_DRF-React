@@ -6,12 +6,12 @@ from .serializers import DealerSerializer, DealerListSerializer, DealerAddressSe
 
 class DealerViewSet(ModelViewSet):
     queryset = Dealer.objects.all()
-    serializer_class = DealerSerializer
+    # serializer_class = DealerSerializer
 
     def get_serializer_class(self):
-        if self.action == 'list':
+        if self.action in ('list', 'retrieve'):
             return DealerListSerializer
-        elif self.action == 'create':
+        else:
             return DealerSerializer
 
 
