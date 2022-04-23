@@ -12,8 +12,7 @@ class DealerViewSet(ModelViewSet):
     def get_serializer_class(self):
         if self.action in ('list', 'retrieve'):
             return DealerListSerializer
-        else:
-            return DealerSerializer
+        return DealerSerializer
 
 
 class DealerAddressViewSet(ModelViewSet):

@@ -113,11 +113,11 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.BasicAuthentication",
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
-    # "DEFAULT_FILTER_BACKENDS": (
+    "DEFAULT_FILTER_BACKENDS": (
         # "JinglePay.django_filter_extended.DjangoFilterBackendExtended",
-        # 'django_filters.rest_framework.DjangoFilterBackend',
+        'django_filters.rest_framework.DjangoFilterBackend',
         # 'rest_framework.filters.OOPTIONSrderingFilter',
-    # ),
+    ),
     # "EXCEPTION_HANDLER": "apps.common.errors.utils.rest_framework_exception_handler",
 }
 

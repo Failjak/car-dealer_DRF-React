@@ -13,3 +13,11 @@ class CarPriceSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarPrice
         fields = '__all__'
+
+
+class CarPriceListSerializer(serializers.ModelSerializer):
+    car = CarSerializer()
+
+    class Meta:
+        model = CarPrice
+        fields = '__all__'
