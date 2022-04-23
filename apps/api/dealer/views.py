@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 
 from apps.models.dealership import Dealer, DealerAddress
-from .serializers import DealerAddressSerializer, DealerSerializer, DealerListSerializer
+from .serializers import DealerSerializer, DealerListSerializer, DealerAddressSerializer
 
 
 class DealerViewSet(ModelViewSet):
