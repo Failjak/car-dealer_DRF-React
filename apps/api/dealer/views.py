@@ -1,18 +1,18 @@
 from rest_framework.viewsets import ModelViewSet
 
 from apps.models.dealership import Dealer, DealerAddress
-from .serializers import DealerAddressSerializer, DealerSerializer, DealerListSerializer
+from .serializers import DealerSerializer, DealerListSerializer, DealerAddressSerializer
+from .filters import DealerFilter
 
 
 class DealerViewSet(ModelViewSet):
     queryset = Dealer.objects.all()
-    serializer_class = DealerSerializer
+    filterset_class = DealerFilter
 
     def get_serializer_class(self):
-        if self.action == 'list':
+        if self.action in ('list', 'retrieve'):
             return DealerListSerializer
-        elif self.action == 'create':
-            return DealerSerializer
+        return DealerSerializer
 
 
 class DealerAddressViewSet(ModelViewSet):
