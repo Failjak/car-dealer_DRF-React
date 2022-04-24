@@ -108,7 +108,7 @@ STATIC_ROOT = BASE_DIR + "/staticfiles/"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    "DEFAULT_PAGINATION_CLASS": 'rest_framework.pagination.PageNumberPagination',
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.BasicAuthentication",
         "rest_framework_simplejwt.authentication.JWTAuthentication",
@@ -117,6 +117,9 @@ REST_FRAMEWORK = {
         # "JinglePay.django_filter_extended.DjangoFilterBackendExtended",
         'django_filters.rest_framework.DjangoFilterBackend',
         # 'rest_framework.filters.OOPTIONSrderingFilter',
+    ),
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ),
     # "EXCEPTION_HANDLER": "apps.common.errors.utils.rest_framework_exception_handler",
 }
