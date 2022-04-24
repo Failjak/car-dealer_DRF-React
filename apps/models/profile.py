@@ -22,5 +22,8 @@ class Profile(models.Model):
         null=True,
     )
 
+    def get_currency(self):
+        return CurrencyType(self.currency)
+
     def __str__(self):
         return self.user.username

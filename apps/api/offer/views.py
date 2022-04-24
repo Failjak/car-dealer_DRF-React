@@ -4,8 +4,11 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, CreateModelMixin
 from rest_framework.permissions import IsAuthenticated
 
-from apps.models import Offer, Profile
+from apps.models import Offer
+from apps.common.types import OfferStatus
 from .serializers import OfferListSerializer, OfferSerializer
+from .services import handle_user_offer
+from .errors import OfferError
 
 
 class OfferGetView(ListModelMixin,
@@ -23,13 +26,16 @@ class OfferGetView(ListModelMixin,
             return OfferListSerializer
         return OfferSerializer
 
+    def perform_create(self, serializer):
+        return serializer.save()
+
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         offer = self.perform_create(serializer)
 
-        # TODO offer logic
-
+        # TODO error handling
+        handle_user_offer(offer)
 
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

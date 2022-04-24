@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
 from apps.registration.serializers import ProfileSerializer
-from ..car.serializers import CarSerializer, CarPriceSerializer
+from ..car.serializers import CarPriceSerializer
 from ..dealer.serializers import DealerSerializer
 from apps.models import Offer
 
@@ -21,6 +21,7 @@ class OfferSerializer(ModelSerializer):
     class Meta:
         model = Offer
         fields = '__all__'
+        read_only_fields = ('status', )
 
     def validate(self, attrs):
         if attrs.get('car') not in attrs.get('dealer').car_prices.all():

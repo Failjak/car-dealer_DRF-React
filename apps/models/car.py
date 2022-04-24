@@ -66,5 +66,8 @@ class CarPrice(models.Model):
     price = models.DecimalField(max_digits=7, decimal_places=2)
     count = models.PositiveSmallIntegerField()
 
+    def get_currency(self):
+        return CurrencyType(self.currency)
+
     def __str__(self):
         return '%s %s - %s$ %spieces' % (self.car.brand, self.car.model, self.price, self.count)
