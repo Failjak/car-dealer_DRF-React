@@ -14,14 +14,6 @@ class Profile(models.Model):
         max_length=6
     )
 
-    cars = models.ForeignKey(
-        'CarPrice',
-        on_delete=models.PROTECT,
-        related_name='profile',
-        blank=True,
-        null=True,
-    )
-
     def get_currency(self):
         return CurrencyType(self.currency)
 
