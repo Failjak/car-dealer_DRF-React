@@ -1,7 +1,8 @@
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
 from apps.models.dealership import Dealer, DealerAddress
-from .serializers import DealerSerializer, DealerListSerializer, DealerAddressSerializer
+from .serializers import DealerSerializer, DealerListSerializer, DealerAddressSerializer, DealerStatisticSerializer
 from .filters import DealerFilter
 
 
@@ -18,3 +19,13 @@ class DealerViewSet(ModelViewSet):
 class DealerAddressViewSet(ModelViewSet):
     queryset = DealerAddress.objects.all()
     serializer_class = DealerAddressSerializer
+
+
+class DealerStatisticView(GenericViewSet):
+    queryset = Dealer.objects.all()
+    serializer_class = DealerStatisticSerializer
+
+    # TODO get most popular car
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()

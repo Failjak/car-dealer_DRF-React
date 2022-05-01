@@ -27,3 +27,11 @@ class DealerSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class DealerStatisticSerializer(serializers.ModelSerializer):
+    avg_car_price = serializers.DecimalField(decimal_places=2, max_digits=7)
+
+    class Meta:
+        model = Dealer
+        fields = '__all__'
+
+
