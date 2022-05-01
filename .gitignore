@@ -8,3 +8,4 @@ celerybeat.pid
 .idea
 postgres_data
 staticfiles/
+client/node_modules
