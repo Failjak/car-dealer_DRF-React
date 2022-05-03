@@ -1,7 +1,7 @@
+from datetime import timedelta
 from pathlib import Path
 import os
 import sys
-
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.join(BASE_DIR, "apps"))
@@ -11,7 +11,6 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-^3tnhm6i(k1#c0g17hehw
 DEBUG = int(os.environ.get('DEBUG', default=1))
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1 0.0.0.0 localhost').split(' ')
-
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -59,23 +58,27 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-#         'NAME': 'sqlite3.db',                      # Or path to database file if using sqlite3.
-#     }
-# }
-
 DATABASES = {
-    "default": {
-        "ENGINE": os.environ.get("DB_ENGINE", 'django.db.backends.postgresql'),
-        "NAME": os.environ.get("DB_NAME", 'dealership'),
-        "USER": os.environ.get("DB_USER", 'postgres'),
-        "PASSWORD": os.environ.get("DB_USER_PASS", 'postgres'),
-        "HOST": os.environ.get("DB_HOST", "0.0.0.0"),
-        "PORT": os.environ.get("DB_PORT", "5445"),
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'sqlite3.db',  # Or path to database file if using sqlite3.
     }
 }
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": os.environ.get("DB_ENGINE", 'django.db.backends.postgresql'),
+#         "NAME": os.environ.get("DB_NAME", 'dealership'),
+#         "USER": os.environ.get("DB_USER", 'postgres'),
+#         "PASSWORD": os.environ.get("DB_USER_PASS", 'postgres'),
+#         "HOST": os.environ.get("DB_HOST", "0.0.0.0"),
+#         "PORT": os.environ.get("DB_PORT", "5445"),
+#     }
+# 'default': {
+#     'ENGINE': 'django.db.backends.sqlite3',
+#     'NAME': 'dealership',
+# }
+# }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -92,7 +95,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -101,9 +103,8 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR + "/staticfiles/"
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -124,7 +125,6 @@ REST_FRAMEWORK = {
     # "EXCEPTION_HANDLER": "apps.common.errors.utils.rest_framework_exception_handler",
 }
 
-
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
     "http://localhost:8000",
@@ -142,3 +142,12 @@ CORS_ALLOW_METHODS = [
     "POST",
     "PUT",
 ]
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=365),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=365),
+
+    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+    'SLIDING_TOKEN_LIFETIME': timedelta(days=10),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=20),
+}
