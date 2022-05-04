@@ -5,7 +5,7 @@ const Car = () => {
 
     const {id} = useParams()
     
-    const [token, setToken] = useState(localStorage.getItem('token'))
+    // const [token, setToken] = useState(localStorage.getItem('token'))a
     const [carInfo, setCarInfo] = useState([])
 
     const getCarInfo = async () => {
