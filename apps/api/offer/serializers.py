@@ -2,14 +2,14 @@ from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
 from apps.registration.serializers import ProfileSerializer
-from ..car.serializers import CarPriceSerializer, CarSerializer
+from ..car.serializers import CarPriceListSerializer, CarSerializer
 from ..dealer.serializers import DealerSerializer
 from apps.models import Offer, Profile
 
 
 class OfferListSerializer(ModelSerializer):
     profile = ProfileSerializer()
-    car = CarPriceSerializer()
+    car = CarPriceListSerializer()
     dealer = DealerSerializer()
 
     class Meta:
