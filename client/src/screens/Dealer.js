@@ -8,6 +8,7 @@ const Diller = (props) => {
     const [dealer, setDealer] = useState({})
     const [dealerCars, setDealerCars] = useState([])
     const [carPrice, setCarPrice] = useState([])
+    const [currentCar, setCurrentCar] = useState([])
 
     const getCars = async () => {
 
@@ -35,8 +36,9 @@ const Diller = (props) => {
         })
         .then(res => res.json())
         .then(res => {
-            setDealer(res)
-            setCarPrice(res.car_prices)
+            // setDealer(res)
+            // setCarPrice(res.car_prices)
+            console.log(res)
         })
 
         

@@ -13,7 +13,7 @@ const Car = () => {
         await fetch('', {
             headers: {
                 'Content-Type': 'Application/json',
-                'Authorization': 'Bearer' + token
+                // 'Authorization': 'Bearer' + token
             }
         })
         .then(res => res.json())
@@ -23,7 +23,7 @@ const Car = () => {
 
     useEffect(() => {
 
-        getCarInfo()
+        // getCarInfo()
         
     }, [id])
 
