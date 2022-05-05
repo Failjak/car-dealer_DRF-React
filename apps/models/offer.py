@@ -45,11 +45,12 @@ class Offer(TimeStampModelMixin):
         """
         Get cars belonging to this profile/user
         """
+
         if not hasattr(user, 'user'):
             user = user.profile
 
         return [{"car": offer.car.car, "price": offer.car.price}
-                for offer in cls.objects.filter(profile=user, status=OfferStatus.SUCCESS)]
+                for offer in cls.objects.filter(profile=user, status=OfferStatus.SUCCESS.value)]
 
     def __str__(self):
         return f"Offer to {self.profile.user.username}, ({self.id})"
