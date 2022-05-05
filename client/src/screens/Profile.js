@@ -11,16 +11,16 @@ const Profile = (props) => {
 
     const navigate = useNavigate()
 
-    const getCarInfo = async () => {
+    const getCarInfo = async (_id) => {
 
-        await fetch('http://127.0.0.1:8000/api/auth/profile/car/', {
+        await fetch(`http://127.0.0.1:8000/api/auth/profile/car/${_id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + props.token,
             },
         })
         .then(res => res.json())
-        .then(res => setCarInfo(res[0]))
+        .then(res => console.log(res))
 
     }
 
@@ -41,8 +41,11 @@ const Profile = (props) => {
                         'Authorization': 'Bearer ' + props.token,
                     },
                     body: JSON.stringify({
-                        ...userInfo.user,
-                        email: email
+                        currency: 'USD',
+                        user: {
+                            ...userInfo.user,
+                            email: email
+                        }
                     })
                 })
                 .then(res => res.json())
@@ -60,6 +63,7 @@ const Profile = (props) => {
     const getUserInfo = async () => {
 
         console.log('fetch')
+        let _id
 
         await fetch('http://127.0.0.1:8000/api/auth/profile/', {
             headers: {
@@ -68,9 +72,12 @@ const Profile = (props) => {
             },
         })
         .then(res => res.json())
-        .then(res => setUserInfo(res[0]))
+        .then(res => {
+            _id = res[0].user.id
+            setUserInfo(res[0])
+        })
         
-        await getCarInfo()
+        await getCarInfo(_id)
 
         console.log('complete')
         

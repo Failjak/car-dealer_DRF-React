@@ -8,22 +8,8 @@ const Diller = (props) => {
     const [dealer, setDealer] = useState({})
     const [dealerCars, setDealerCars] = useState([])
     const [carPrice, setCarPrice] = useState([])
-
-    const getCars = async () => {
-
-        await fetch(`http://127.0.0.1:8000/api/car/${id}`, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + props.token,
-            },
-        })
-        .then(res => res.json())
-        .then(res => {
-            setDealer(res)
-            setCarPrice(res.car_prices)
-        })
-
-    }
+    const [currentCar, setCurrentCar] = useState([])
+    const [userInfo, setUserInfo] = useState()
 
     const getDealer = async () => {
 
@@ -36,15 +22,58 @@ const Diller = (props) => {
         .then(res => res.json())
         .then(res => {
             setDealer(res)
-            setCarPrice(res.car_prices)
+            setDealerCars(res.car_prices)
+            console.log(res)
         })
-
-        
 
     }
 
+    const buyCar = async (id) => {
+
+        try {
+            await fetch(`http://127.0.0.1:8000/api/offer/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + props.token,
+            },
+            body: JSON.stringify({
+                dealer: dealer.id,
+                car: id,
+                profile: userInfo.user.id
+            })
+        })
+        .then(res => res.json())
+        .then(res => {
+            console.log(res)
+        })
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
+    const getUserInfo = async () => {
+
+        console.log('fetch')
+
+        await fetch('http://127.0.0.1:8000/api/auth/profile/', {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + props.token,
+            },
+        })
+        .then(res => res.json())
+        .then(res => setUserInfo(res[0]))
+
+        await getDealer()
+        
+        console.log('complete')
+        
+    }
+
     useEffect(() => {
-        getDealer()
+        getUserInfo()
     }, [])
 
     return (
@@ -79,10 +108,11 @@ const Diller = (props) => {
                         <div onClick={() => {
                             setCurrentCar(elem)
                         }} className='car__card' key={elem.id}>
-                            <h2 style={{ textAlign: 'center' }}>{elem.brand + ' ' + elem.model + 'dfdfdfdffdfdf'}</h2>
-                            <p>{elem.release_year}</p>
-                            <p>{elem.drive}</p>
-                            <p>{elem.transmission}</p>
+                            <h2 style={{ textAlign: 'center' }}>{elem.car.brand + ' ' + elem.car.model + ' ' + elem.car.release_year}</h2>
+                            <p>{elem.price + ' ' + elem.currency}</p>
+                            <p>{elem.car.drive}</p>
+                            <p>{elem.car.transmission}</p>
+                            <div className="btn" onClick={() => buyCar(elem.id)}>Купить</div>
                         </div>
                     ))
                 }
