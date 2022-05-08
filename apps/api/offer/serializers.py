@@ -47,7 +47,9 @@ class OfferToProfileSerializer(serializers.ModelSerializer):
             'status',
             'dealer__id',
             'dealer__name',
-            'car'
+            'car',
+            'created_at',
+            'updated_at',
         )
 
 

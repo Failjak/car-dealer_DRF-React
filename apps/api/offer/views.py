@@ -3,12 +3,12 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, CreateModelMixin
 from rest_framework.permissions import IsAuthenticated
+from drf_yasg.utils import swagger_auto_schema
 
 from apps.models import Offer
-from apps.common.types import OfferStatus
 from .serializers import OfferListSerializer, OfferSerializer
 from .services import handle_user_offer
-from .errors import OfferError
+from apps.common.common import error_response_handler_decorator
 
 
 class OfferGetView(ListModelMixin,
@@ -29,12 +29,12 @@ class OfferGetView(ListModelMixin,
     def perform_create(self, serializer):
         return serializer.save()
 
+    @error_response_handler_decorator
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         offer = self.perform_create(serializer)
 
-        # TODO error handling
         handle_user_offer(offer)
 
         headers = self.get_success_headers(serializer.data)
