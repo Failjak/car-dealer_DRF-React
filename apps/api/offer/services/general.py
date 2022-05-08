@@ -1,31 +1,27 @@
-from apps.models import Offer, CarPrice, Profile
-from apps.common.helpers import transfer_between_currency
+from rest_framework import status
+
+from apps.models import Offer
 from apps.common.types import OfferStatus
-from apps.api.offer.errors import OfferError
+from apps.api.errors import BaseError
 
 
 def handle_user_offer(offer: Offer):
     profile = offer.profile
     car_price = offer.car
 
-    if car_price.count < 1:
-        raise OfferError(message="No car available at the Dealership")
+    try:
+        if car_price.count < 1:
+            raise BaseError(details={
+                'message': "No car available at the Dealership",
+                'error': status.HTTP_400_BAD_REQUEST
+            })
 
-    car_cost = transfer_between_currency(
-        car_price.price,
-        car_price.get_currency(),
-        profile.get_currency()
-    )
+        profile.buy_car(car_price)
+        car_price.count -= 1
+        car_price.save()
+        offer.update_status(OfferStatus.SUCCESS)
 
-    if profile.balance < car_cost:
-        raise OfferError(message="Not enough money")
+    except BaseError as e:
+        offer.update_status(OfferStatus.FAILED)
+        raise BaseError(details=e.details)
 
-    profile.balance -= car_cost
-    # TODO adding car to user
-    # profile.cars
-    car_price.count -= 1
-
-    profile.save()
-    car_price.save()
-
-    offer.status = OfferStatus.SUCCESS.value

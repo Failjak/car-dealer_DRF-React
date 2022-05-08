@@ -31,6 +31,10 @@ class Offer(TimeStampModelMixin):
         on_delete=models.PROTECT
     )
 
+    def update_status(self, status: OfferStatus):
+        self.status = status.value
+        self.save()
+
     @classmethod
     def get_users_offers(cls, user):
         """

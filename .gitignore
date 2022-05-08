@@ -8,3 +8,5 @@ celerybeat.pid
 .idea
 postgres_data
 staticfiles/
+dealership
+sqlite3.db

@@ -77,11 +77,11 @@ class ProfileCarSerializer(serializers.ModelSerializer):
     profile_id = serializers.CharField(source='id')
     cars = serializers.SerializerMethodField()
 
+    class Meta:
+        model = Profile
+        fields = ('profile_id', 'cars')
+
     def get_cars(self, profile):
         cars = Offer.get_users_cars(profile)
         ser = CarPriceOfferSerializer([car for car in cars], many=True, read_only=True)
         return ser.data
-
-    class Meta:
-        model = Profile
-        fields = ('profile_id', 'cars')
