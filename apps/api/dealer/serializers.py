@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from apps.models import Dealer, DealerAddress
-from apps.api.car.serializers import CarPriceSerializer
+from apps.api.car.serializers import CarPriceListSerializer
 
 
 class DealerAddressSerializer(serializers.ModelSerializer):
@@ -11,7 +11,7 @@ class DealerAddressSerializer(serializers.ModelSerializer):
 
 
 class DealerListSerializer(serializers.ModelSerializer):
-    car_prices = CarPriceSerializer(read_only=True, many=True)
+    car_prices = CarPriceListSerializer(read_only=True, many=True)
     address = DealerAddressSerializer()
 
     class Meta:

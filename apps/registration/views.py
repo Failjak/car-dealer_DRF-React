@@ -66,7 +66,6 @@ class ProfileCarGetView(ListModelMixin,
                         GenericViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = ProfileCarSerializer
-    queryset = Profile.objects.all()
 
     def get_queryset(self):
         user = self.request.user

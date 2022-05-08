@@ -1,0 +1,125 @@
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
+const Diller = (props) => {
+
+    const {id} = useParams()
+    
+    const [dealer, setDealer] = useState({})
+    const [dealerCars, setDealerCars] = useState([])
+    const [carPrice, setCarPrice] = useState([])
+    const [currentCar, setCurrentCar] = useState([])
+    const [userInfo, setUserInfo] = useState()
+
+    const getDealer = async () => {
+
+        await fetch(`http://127.0.0.1:8000/api/dealer/${id}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + props.token,
+            },
+        })
+        .then(res => res.json())
+        .then(res => {
+            setDealer(res)
+            setDealerCars(res.car_prices)
+            console.log(res)
+        })
+
+    }
+
+    const buyCar = async (id) => {
+
+        try {
+            await fetch(`http://127.0.0.1:8000/api/offer/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + props.token,
+            },
+            body: JSON.stringify({
+                dealer: dealer.id,
+                car: id,
+                profile: userInfo.user.id
+            })
+        })
+        .then(res => res.json())
+        .then(res => {
+            console.log(res)
+        })
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
+    const getUserInfo = async () => {
+
+        console.log('fetch')
+
+        await fetch('http://127.0.0.1:8000/api/auth/profile/', {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + props.token,
+            },
+        })
+        .then(res => res.json())
+        .then(res => setUserInfo(res[0]))
+
+        await getDealer()
+        
+        console.log('complete')
+        
+    }
+
+    useEffect(() => {
+        getUserInfo()
+    }, [])
+
+    return (
+        <div className="container">
+            <h2>Профиль диллера</h2>
+            <div className="diller__body">
+                <div className="info">
+                    <div className='row'>
+                        <div className='col'>
+                            <span>Имя</span>
+                            <p>{dealer?.name}</p>
+                        </div>
+                        <div className='col'>
+                            <span>Страна</span>
+                            <p>{dealer?.address?.country}</p>
+                        </div>
+                        <div className='col'>
+                            <span>Город</span>
+                            <p>{dealer?.address?.city}</p>
+                        </div>
+                        <div className='col'>
+                            <span>Улица</span>
+                            <p>{dealer?.address?.street}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h3 style={{ fontSize: 24 }}>Предложения дилера:</h3>
+            <div className='cars'>
+                {
+                    dealerCars?.length > 0 && dealerCars.map(elem => (
+                        <div onClick={() => {
+                            setCurrentCar(elem)
+                        }} className='car__card' key={elem.id}>
+                            <h2 style={{ textAlign: 'center' }}>{elem.car.brand + ' ' + elem.car.model + ' ' + elem.car.release_year}</h2>
+                            <p>{elem.price + ' ' + elem.currency}</p>
+                            <p>{elem.car.drive}</p>
+                            <p>{elem.car.transmission}</p>
+                            <div className="btn" onClick={() => buyCar(elem.id)}>Купить</div>
+                        </div>
+                    ))
+                }
+            </div>
+        </div>
+    )
+
+}
+
+export default Diller

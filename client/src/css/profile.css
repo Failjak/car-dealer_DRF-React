@@ -1,5 +1,5 @@
 .container{
-    margin-left: 250px;
+    margin-left: 150px;
     margin-top: 50px;
     max-width: 1100px;
 }
@@ -19,11 +19,17 @@
 
 .col{
     margin: 15px 50px;
+    display: flex;
+    flex-direction: column;
 }
 
 .col span{
     color: grey;
     font-size: 14px;
+}
+
+.col input{
+    margin-top: 5px;
 }
 
 .col p{
