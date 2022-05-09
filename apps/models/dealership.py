@@ -20,7 +20,7 @@ class Dealer(models.Model):
     Dealer information
     """
     name = models.CharField(max_length=255)
-    car_prices = models.ManyToManyField('CarPrice')
+    car_prices = models.ManyToManyField('CarPrice', null=True, blank=True)
     address = models.OneToOneField(
         DealerAddress,
         on_delete=models.PROTECT,
