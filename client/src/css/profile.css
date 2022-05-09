@@ -51,6 +51,14 @@
     margin: 0 30px;
 }
 
+.car__card p{
+    margin: 7px 0;
+}
+
+.car__card h2{
+    margin-bottom: 10px;
+}
+
 .car__card:hover{
     cursor: pointer;
     box-shadow: 0 0 10px lightgrey;
@@ -73,9 +81,12 @@
 }
 
 .modal_car_info{
+    min-width: 100px;
+    min-height: 100px;
     padding: 20px;
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .modal_car_info span{

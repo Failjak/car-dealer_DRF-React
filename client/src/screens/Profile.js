@@ -1,26 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import '../css/profile.css'
+import Modal from 'react-modal'
+
 
 const Profile = (props) => {
 
     const [userInfo, setUserInfo] = useState([])
-    const [carInfo, setCarInfo] = useState([])
-    const [currentCar, setCurrentCar] = useState(0)
+    const [offers, setOffers] = useState([])
+    const [currentCar, setCurrentCar] = useState(null)
+    const [currentCarDate, setCurrentCarDate] = useState('')
     const [email, setEmail] = useState('')
+    const [openModal, setOpenModal] = useState(false)
 
     const navigate = useNavigate()
 
-    const getCarInfo = async (_id) => {
+    const getOffer = async (_id) => {
 
-        await fetch(`http://127.0.0.1:8000/api/auth/profile/car/${_id}`, {
+        await fetch(`http://127.0.0.1:8000/api/offer/`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + props.token,
             },
         })
         .then(res => res.json())
-        .then(res => console.log(res))
+        .then(res => {
+            let offersBuf = []
+
+            res.map(elem => {
+                console.log(elem)
+                if (elem?.profile?.id == _id) {
+                    offersBuf.push(elem)
+                }
+            })
+
+            setOffers(offersBuf)
+        })
 
     }
 
@@ -77,7 +92,7 @@ const Profile = (props) => {
             setUserInfo(res[0])
         })
         
-        await getCarInfo(_id)
+        await getOffer(_id)
 
         console.log('complete')
         
@@ -85,7 +100,6 @@ const Profile = (props) => {
 
     useEffect(() => {
         getUserInfo()
-        console.log('useff')
     }, [])
 
     return (
@@ -122,20 +136,24 @@ const Profile = (props) => {
             <h3 style={{ fontSize: 24 }}>Мои машины:</h3>
             <div className='cars'>
                 {
-                    carInfo?.length > 0 && carInfo.map(elem => (
+                    offers?.length > 0 && offers.map(elem => (
                         <div onClick={() => {
                             setCurrentCar(elem)
-                        }} className='car__card' key={elem.id}>
+                            setCurrentCarDate(new Date(elem.updated_at))
+                            // console.log(new Date(elem.updated_at))
+                            setOpenModal(true)
+                        }} className='car__card' key={elem.car.id}>
                             {/* <div onClick={() => navigate(`/car/${elem.id}`, { replace: true })} className='car__card' key={elem.id}> */}
-                            <h2 style={{ textAlign: 'center' }}>{elem.brand + ' ' + elem.model + 'dfdfdfdffdfdf'}</h2>
-                            <p>{elem.release_year}</p>
-                            <p>{elem.drive}</p>
-                            <p>{elem.transmission}</p>
+                            <h2 style={{ textAlign: 'center' }}>{elem.car.car.brand + ' ' + elem.car.car.model}</h2>
+                            <p>Год выпуска: {elem.car.car.release_year}</p>
+                            <p>Привод: {elem.car.car.drive}</p>
+                            <p>Управление: {elem.car.car.transmission}</p>
+                            <p>Стоимость: {elem.car.price} {elem.car.currency}</p>
                         </div>
                     ))
                 }
             </div>
-            {/* <Modal
+            <Modal
                 isOpen={openModal}
                 // onAfterOpen={afterOpenModal}
                 // onRequestClose={closeModal}
@@ -144,11 +162,17 @@ const Profile = (props) => {
             >
                 <button className='modal__btn' onClick={() => setOpenModal(false)}>close</button>
                 <div className='modal_car_info'>
-                    <h2>{currentCar.name}</h2>
-                    <p>{currentCar.year}</p>
-                    <p>{currentCar.date}</p>
+                    {
+                        currentCar &&
+                        <>
+                            <h2>{currentCar.car.car.brand + ' ' + currentCar.car.car.model}</h2>
+                            <p>Дилер: {currentCar.dealer.name}</p>
+                            <p>Статус заказа: {currentCar.status}</p>
+                            <p>Дата заказа: {currentCarDate.getDate()}:{currentCarDate.getMonth() + 1}:{currentCarDate.getFullYear()}</p>
+                        </>
+                    }
                 </div>
-            </Modal> */}
+            </Modal>
         </div>
     )
 
