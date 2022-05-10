@@ -10,8 +10,28 @@ const Diller = (props) => {
     const [carPrice, setCarPrice] = useState([])
     const [currentCar, setCurrentCar] = useState([])
     const [userInfo, setUserInfo] = useState()
+    const [dealerStats, setDealerStats] = useState([])
+
+    const getStats = async (name) => {
+
+        await fetch('http://127.0.0.1:8000/api/dealer/statistic/', {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + props.token,
+            },
+        })
+        .then(res => res.json())
+        .then(res => {
+            const current = res.filter(elem => elem.name == name)
+            console.log(current)
+            setDealerStats(current)
+        })
+
+    }
 
     const getDealer = async () => {
+
+        let dealerName
 
         await fetch(`http://127.0.0.1:8000/api/dealer/${id}`, {
             headers: {
@@ -22,9 +42,12 @@ const Diller = (props) => {
         .then(res => res.json())
         .then(res => {
             setDealer(res)
+            dealerName = res.name
             setDealerCars(res.car_prices)
             console.log(res)
         })
+
+        await getStats(dealerName)
 
     }
 
@@ -113,6 +136,22 @@ const Diller = (props) => {
                             <p>{elem.car.drive}</p>
                             <p>{elem.car.transmission}</p>
                             <div className="btn" onClick={() => buyCar(elem.id)}>Купить</div>
+                        </div>
+                    ))
+                }
+            </div>
+            <h3 style={{ fontSize: 24 }}>Статистика дилера:</h3>
+            <div className='cars'>
+                {
+                    dealerStats?.length > 0 && dealerStats.map(elem => (
+                        <div onClick={() => {
+                            // setCurrentCar(elem)
+                            console.log('///')
+                        }} className='car__card' key={elem.id}>
+                            {/* <h2 style={{ textAlign: 'center' }}>{elem.car.brand + ' ' + elem.car.model + ' ' + elem.car.release_year}</h2> */}
+                            <p>Средняя цена машин: {elem.avg_car_price}</p>
+                            <p>Максимальная цена машины: {elem.max_car_price}</p>
+                            <p>Самая популярная модель: {elem.most_popular_car.brand + ' ' + elem.most_popular_car.model}</p>
                         </div>
                     ))
                 }

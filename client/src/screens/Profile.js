@@ -42,11 +42,17 @@ const Profile = (props) => {
     const updateUserInfo = async () => {
 
         if (email != '') {
-
             console.log({
-                ...userInfo.user,
-                email: email
+                currency: 'USD',
+                user: {
+                    username: userInfo.user.username,
+                    first_name: userInfo.user.first_name,
+                    last_name: userInfo.user.last_name,
+                    email: email
+                }
             })
+
+            console.log(userInfo)
 
             try {
                 await fetch(`http://127.0.0.1:8000/api/auth/profile/${userInfo.user.id}/`, {
@@ -58,7 +64,9 @@ const Profile = (props) => {
                     body: JSON.stringify({
                         currency: 'USD',
                         user: {
-                            ...userInfo.user,
+                            username: userInfo.user.username,
+                            first_name: userInfo.user.first_name,
+                            last_name: userInfo.user.last_name,
                             email: email
                         }
                     })
@@ -107,14 +115,14 @@ const Profile = (props) => {
             <h2>Профиль</h2>
             <div className='info'>
                 <div className='row'>
-                    <div className='col'>
+                    {/* <div className='col'>
                         <span>email</span>
                         {
                             userInfo?.user?.email ?
                             <p>{userInfo?.user?.email}</p> :
                             <input type="text" placeholder='email' onChange={e => setEmail(e.target.value)} />
                         }
-                    </div>
+                    </div> */}
                     <div className='col'>
                         <span>Баланс</span>
                         <p>{userInfo?.balance}</p>
@@ -133,7 +141,7 @@ const Profile = (props) => {
                     <div className='btn' onClick={() => updateUserInfo()} style={{width: '30%', textAlign: 'center', marginLeft: 'auto', marginRight: 'auto'}}>Сохранить</div>
                 }
             </div>
-            <h3 style={{ fontSize: 24 }}>Мои машины:</h3>
+            <h3 style={{ fontSize: 24 }}>Мои заказы:</h3>
             <div className='cars'>
                 {
                     offers?.length > 0 && offers.map(elem => (
