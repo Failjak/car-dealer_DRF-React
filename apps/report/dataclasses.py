@@ -14,4 +14,4 @@ class DealerStatistic:
     count_cars: int
     avg_car_price: Decimal
     max_car_price: Decimal
-    most_popular_car: Car | None
+    most_popular_car: Car
