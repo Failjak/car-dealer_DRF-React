@@ -1,7 +1,9 @@
 from rest_framework import serializers
+from rest_framework_dataclasses.serializers import DataclassSerializer
 
 from apps.models import Dealer, DealerAddress
-from apps.api.car.serializers import CarPriceListSerializer
+from apps.api.car.serializers import CarPriceListSerializer, CarSerializer
+from apps.report.dataclasses import DealerStatistic
 
 
 class DealerAddressSerializer(serializers.ModelSerializer):
@@ -27,3 +29,9 @@ class DealerSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class DealerStatisticDTOSerializer(DataclassSerializer):
+    most_popular_car = CarSerializer()
+    address = DealerAddressSerializer()
+
+    class Meta:
+        dataclass = DealerStatistic
