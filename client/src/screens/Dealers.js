@@ -6,6 +6,23 @@ const Dealers = (props) => {
 
     const [search, setSearch] = useState('')
     const [dealers, setDealers] = useState([])
+    const [allStats, setAllStats] = useState([])
+
+    const getStatistic = async () => {
+
+        await fetch('http://127.0.0.1:8000/api/dealer/statistic/', {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + props.token,
+            },
+        })
+        .then(res => res.json())
+        .then(res => {
+            console.log(res)
+            setAllStats(res)
+        })
+
+    }
 
     const getDealers = async () => {
 
@@ -28,6 +45,7 @@ const Dealers = (props) => {
 
     useEffect(() => {
         getDealers()
+        getStatistic()
     }, [])
 
 
@@ -63,6 +81,33 @@ const Dealers = (props) => {
                                         </td>
                                     <td>{elem.address.country}</td>
                                     <td>{elem.address.city}</td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div style={{marginTop: 100}}>
+                <h2>Статистика всех дилеров</h2>
+            </div>
+            <div className="table">
+                <table style={{marginBottom: 50}}>
+                    <thead>
+                        <tr>
+                            <th>Имя дилера</th>
+                            <th>Средняя стоимость машин</th>
+                            <th>Максимальная стоимость машины</th>
+                            <th>популярная модель</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            allStats.length > 0 && allStats.map(elem => (
+                                <tr key={elem.id}>
+                                    <td>{elem.name}</td>
+                                    <td>{elem.avg_car_price}</td>
+                                    <td>{elem.max_car_price}</td>
+                                    <td>{elem.most_popular_car.brand + ' ' + elem.most_popular_car.model}</td>
                                 </tr>
                             ))
                         }
