@@ -57,7 +57,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    user = UserUpdateSerializer
+    user = UserUpdateSerializer()
 
     class Meta:
         model = Profile
