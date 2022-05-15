@@ -14,8 +14,6 @@ gunicorn = "*"
 django-cors-headers = "*"
 django-filter = "*"
 pypdf2 = "*"
-reportlab = "*"
-matplotlib = "*"
 djangorestframework-dataclasses = "*"
 
 [dev-packages]

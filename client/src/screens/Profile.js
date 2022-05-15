@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import React, {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router';
 import '../css/profile.css'
 import Modal from 'react-modal'
-
+import config from '../config.json'
 
 const Profile = (props) => {
 
@@ -12,30 +12,31 @@ const Profile = (props) => {
     const [currentCarDate, setCurrentCarDate] = useState('')
     const [email, setEmail] = useState('')
     const [openModal, setOpenModal] = useState(false)
+    const [error, setError] = useState('')
 
     const navigate = useNavigate()
 
     const getOffer = async (_id) => {
 
-        await fetch(`http://127.0.0.1:8000/api/offer/`, {
+        await fetch(`${config.url}api/offer/`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + props.token,
             },
         })
-        .then(res => res.json())
-        .then(res => {
-            let offersBuf = []
+            .then(res => res.json())
+            .then(res => {
+                let offersBuf = []
 
-            res.map(elem => {
-                console.log(elem)
-                if (elem?.profile?.id == _id) {
-                    offersBuf.push(elem)
-                }
+                res.map(elem => {
+                    console.log(elem)
+                    if (elem?.profile?.id == _id) {
+                        offersBuf.push(elem)
+                    }
+                })
+
+                setOffers(offersBuf)
             })
-
-            setOffers(offersBuf)
-        })
 
     }
 
@@ -55,7 +56,7 @@ const Profile = (props) => {
             console.log(userInfo)
 
             try {
-                await fetch(`http://127.0.0.1:8000/api/auth/profile/${userInfo.user.id}/`, {
+                await fetch(`${config.url}api/auth/profile/${userInfo.user.id}/`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -71,8 +72,8 @@ const Profile = (props) => {
                         }
                     })
                 })
-                .then(res => res.json())
-                .then(res => console.log(res))
+                    .then(res => res.json())
+                    .then(res => console.log(res))
             } catch (error) {
                 console.log(error)
             }
@@ -80,7 +81,7 @@ const Profile = (props) => {
             await getUserInfo()
 
         }
-        
+
     }
 
     const getUserInfo = async () => {
@@ -88,22 +89,22 @@ const Profile = (props) => {
         console.log('fetch')
         let _id
 
-        await fetch('http://127.0.0.1:8000/api/auth/profile/', {
+        await fetch(`${config.url}api/auth/profile/`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + props.token,
             },
         })
-        .then(res => res.json())
-        .then(res => {
-            _id = res[0].user.id
-            setUserInfo(res[0])
-        })
-        
+            .then(res => res.json())
+            .then(res => {
+                _id = res[0].id
+                setUserInfo(res[0])
+            })
+
         await getOffer(_id)
 
         console.log('complete')
-        
+
     }
 
     useEffect(() => {
@@ -115,33 +116,32 @@ const Profile = (props) => {
             <h2>Профиль</h2>
             <div className='info'>
                 <div className='row'>
-                    {/* <div className='col'>
-                        <span>email</span>
-                        {
-                            userInfo?.user?.email ?
-                            <p>{userInfo?.user?.email}</p> :
-                            <input type="text" placeholder='email' onChange={e => setEmail(e.target.value)} />
-                        }
-                    </div> */}
+
                     <div className='col'>
-                        <span>Баланс</span>
-                        <p>{userInfo?.balance}</p>
+                        <span>Логин</span>
+                        <p>{userInfo?.user?.username}</p>
                     </div>
                     <div className='col'>
                         <span>Имя</span>
                         <p>{userInfo?.user?.first_name + ' ' + userInfo?.user?.last_name}</p>
                     </div>
                     <div className='col'>
-                        <span>Логин</span>
-                        <p>{userInfo?.user?.username}</p>
+                        <span>Баланс</span>
+                        <p>{userInfo?.balance} {userInfo?.currency}</p>
+                    </div>
+                    <div className='col'>
+                        <span>email</span>
+                        {/*userInfo?.user?.email*/}
+                        <p>{userInfo?.user?.email}</p>
+                        {/*<input type="text" placeholder='email' onChange={e => setEmail(e.target.value)} />*/}
                     </div>
                 </div>
-                {
-                    !userInfo?.user?.email &&
-                    <div className='btn' onClick={() => updateUserInfo()} style={{width: '30%', textAlign: 'center', marginLeft: 'auto', marginRight: 'auto'}}>Сохранить</div>
-                }
+                {/*{*/}
+                {/*    !userInfo?.user?.email &&*/}
+                {/*    <div className='btn' onClick={() => updateUserInfo()} style={{width: '30%', textAlign: 'center', marginLeft: 'auto', marginRight: 'auto'}}>Сохранить</div>*/}
+                {/*}*/}
             </div>
-            <h3 style={{ fontSize: 24 }}>Мои заказы:</h3>
+            <h3 style={{fontSize: 24}}>Мои заказы:</h3>
             <div className='cars'>
                 {
                     offers?.length > 0 && offers.map(elem => (
@@ -152,11 +152,12 @@ const Profile = (props) => {
                             setOpenModal(true)
                         }} className='car__card' key={elem.car.id}>
                             {/* <div onClick={() => navigate(`/car/${elem.id}`, { replace: true })} className='car__card' key={elem.id}> */}
-                            <h2 style={{ textAlign: 'center' }}>{elem.car.car.brand + ' ' + elem.car.car.model}</h2>
+                            <h2 style={{textAlign: 'center'}}>{elem.car.car.brand + ' ' + elem.car.car.model}</h2>
                             <p>Год выпуска: {elem.car.car.release_year}</p>
                             <p>Привод: {elem.car.car.drive}</p>
                             <p>Управление: {elem.car.car.transmission}</p>
                             <p>Стоимость: {elem.car.price} {elem.car.currency}</p>
+                            <p>Статус: {elem.status}</p>
                         </div>
                     ))
                 }
@@ -176,7 +177,8 @@ const Profile = (props) => {
                             <h2>{currentCar.car.car.brand + ' ' + currentCar.car.car.model}</h2>
                             <p>Дилер: {currentCar.dealer.name}</p>
                             <p>Статус заказа: {currentCar.status}</p>
-                            <p>Дата заказа: {currentCarDate.getDate()}:{currentCarDate.getMonth() + 1}:{currentCarDate.getFullYear()}</p>
+                            <p>Дата
+                                заказа: {currentCarDate.getDate()}:{currentCarDate.getMonth() + 1}:{currentCarDate.getFullYear()}</p>
                         </>
                     }
                 </div>

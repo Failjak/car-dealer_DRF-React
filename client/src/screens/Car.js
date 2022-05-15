@@ -5,7 +5,7 @@ const Car = () => {
 
     const {id} = useParams()
     
-    // const [token, setToken] = useState(localStorage.getItem('token'))a
+    const [token, setToken] = useState(localStorage.getItem('token'))
     const [carInfo, setCarInfo] = useState([])
 
     const getCarInfo = async () => {
@@ -13,7 +13,7 @@ const Car = () => {
         await fetch('', {
             headers: {
                 'Content-Type': 'Application/json',
-                // 'Authorization': 'Bearer' + token
+                'Authorization': 'Bearer' + token
             }
         })
         .then(res => res.json())

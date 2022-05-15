@@ -58,27 +58,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+#         'NAME': 'sqlite3.db',  # Or path to database file if using sqlite3.
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'sqlite3.db',  # Or path to database file if using sqlite3.
+    "default": {
+        "ENGINE": os.environ.get("DB_ENGINE", 'django.db.backends.postgresql'),
+        "NAME": os.environ.get("DB_NAME", 'dealership'),
+        "USER": os.environ.get("DB_USER", 'postgres'),
+        "PASSWORD": os.environ.get("DB_PASS", 'postgres'),
+        "HOST": os.environ.get("DB_HOST", "0.0.0.0"),
+        "PORT": os.environ.get("DB_PORT", "5445"),
     }
 }
-
-# DATABASES = {
-#     "default": {
-#         "ENGINE": os.environ.get("DB_ENGINE", 'django.db.backends.postgresql'),
-#         "NAME": os.environ.get("DB_NAME", 'dealership'),
-#         "USER": os.environ.get("DB_USER", 'postgres'),
-#         "PASSWORD": os.environ.get("DB_USER_PASS", 'postgres'),
-#         "HOST": os.environ.get("DB_HOST", "0.0.0.0"),
-#         "PORT": os.environ.get("DB_PORT", "5445"),
-#     }
-# 'default': {
-#     'ENGINE': 'django.db.backends.sqlite3',
-#     'NAME': 'dealership',
-# }
-# }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -129,6 +125,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
     "http://localhost:8000",
     "http://localhost:3000",
+    "http://localhost:80",
+    "http://localhost",
     "http://127.0.0.1:3000",
     "http://127.0.0.1:80",
     "http://127.0.0.1",

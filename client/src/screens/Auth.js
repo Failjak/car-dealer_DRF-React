@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../css/auth.css';
+import config from '../config.json'
 
 const Auth = () => {
 
@@ -16,7 +17,7 @@ const Auth = () => {
 
             console.log('auth', login, pass)
             try {
-                await fetch('http://127.0.0.1:8000/api/auth/token/', {
+                await fetch(`${config.url}api/auth/token/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -43,7 +44,7 @@ const Auth = () => {
             console.log('registr')
 
             try {
-                await fetch('http://127.0.0.1:8000/api/auth/register/', {
+                await fetch(`${config.url}api/auth/register/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -76,8 +77,8 @@ const Auth = () => {
             <h2>{isAuth ? 'Авторизируйтесь' : 'Зарегистрируйтесь'}</h2>
             <div className='form flex'>
                 <input type="text" placeholder='Введите логин' onChange={(e) => setLogin(e.target.value)} />
-                <input type="text" placeholder='Введите ваше имя' onChange={(e) => setName(e.target.value)} />
-                <input type="text" placeholder='Введите ваш баланс' onChange={(e) => setBalance(e.target.value)} />
+                {/*<input type="text" placeholder='Введите ваше имя' onChange={(e) => setName(e.target.value)} />*/}
+                {/*<input type="text" placeholder='Введите ваш баланс' onChange={(e) => setBalance(e.target.value)} />*/}
                 <input type="password" placeholder='Введите пароль' onChange={(e) => setPass(e.target.value)} />
                 {
                     !isAuth && <input type="password" placeholder='Повторие пароль' onChange={(e) => setSecPass(e.target.value)} />

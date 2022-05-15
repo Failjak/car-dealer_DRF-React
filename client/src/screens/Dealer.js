@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import config from '../config.json'
 
 const Diller = (props) => {
+
 
     const {id} = useParams()
     
@@ -11,10 +13,11 @@ const Diller = (props) => {
     const [currentCar, setCurrentCar] = useState([])
     const [userInfo, setUserInfo] = useState()
     const [dealerStats, setDealerStats] = useState([])
+    const [error, setError] = useState('')
 
     const getStats = async (name) => {
 
-        await fetch('http://127.0.0.1:8000/api/dealer/statistic/', {
+        await fetch(`${config.url}api/dealer/statistic/`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + props.token,
@@ -33,7 +36,7 @@ const Diller = (props) => {
 
         let dealerName
 
-        await fetch(`http://127.0.0.1:8000/api/dealer/${id}`, {
+        await fetch(`${config.url}api/dealer/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + props.token,
@@ -54,7 +57,7 @@ const Diller = (props) => {
     const buyCar = async (id) => {
 
         try {
-            await fetch(`http://127.0.0.1:8000/api/offer/`, {
+            await fetch(`${config.url}api/offer/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -63,7 +66,7 @@ const Diller = (props) => {
             body: JSON.stringify({
                 dealer: dealer.id,
                 car: id,
-                profile: userInfo.user.id
+                profile: userInfo.id
             })
         })
         .then(res => res.json())
@@ -71,7 +74,7 @@ const Diller = (props) => {
             console.log(res)
         })
         } catch (error) {
-            console.log(error)
+            alert(error.message)
         }
 
     }
@@ -80,7 +83,7 @@ const Diller = (props) => {
 
         console.log('fetch')
 
-        await fetch('http://127.0.0.1:8000/api/auth/profile/', {
+        await fetch(`${config.url}api/auth/profile/`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + props.token,

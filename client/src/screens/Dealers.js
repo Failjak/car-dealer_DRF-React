@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import '../css/dillers.css'
+import config from '../config.json'
 
 const Dealers = (props) => {
 
@@ -10,7 +11,7 @@ const Dealers = (props) => {
 
     const getStatistic = async () => {
 
-        await fetch('http://127.0.0.1:8000/api/dealer/statistic/', {
+        await fetch(`${config.url}api/dealer/statistic/`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + props.token,
@@ -26,7 +27,7 @@ const Dealers = (props) => {
 
     const getDealers = async () => {
 
-        await fetch('http://127.0.0.1:8000/api/dealer', {
+        await fetch(`${config.url}api/dealer`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + props.token,
@@ -79,8 +80,8 @@ const Dealers = (props) => {
                                     <td>
                                         <Link to={getUrlParam(elem)} >{elem.name}</Link>
                                         </td>
-                                    <td>{elem.address.country}</td>
-                                    <td>{elem.address.city}</td>
+                                    <td>{elem?.address?.country}</td>
+                                    <td>{elem?.address?.city}</td>
                                 </tr>
                             ))
                         }
