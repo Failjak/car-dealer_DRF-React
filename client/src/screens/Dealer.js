@@ -26,7 +26,7 @@ const Diller = (props) => {
         .then(res => res.json())
         .then(res => {
             const current = res.filter(elem => elem.name == name)
-            console.log(current)
+            console.log("Statistic:" + current)
             setDealerStats(current)
         })
 
@@ -122,7 +122,7 @@ const Diller = (props) => {
                         </div>
                         <div className='col'>
                             <span>Улица</span>
-                            <p>{dealer?.address?.street}</p>
+                            <p>{dealer?.address?.street + ' ' + dealer?.address?.building}</p>
                         </div>
                     </div>
                 </div>
@@ -152,9 +152,9 @@ const Diller = (props) => {
                             console.log('///')
                         }} className='car__card' key={elem.id}>
                             {/* <h2 style={{ textAlign: 'center' }}>{elem.car.brand + ' ' + elem.car.model + ' ' + elem.car.release_year}</h2> */}
-                            <p>Средняя цена машин: {elem.avg_car_price}</p>
-                            <p>Максимальная цена машины: {elem.max_car_price}</p>
-                            <p>Самая популярная модель: {elem.most_popular_car.brand + ' ' + elem.most_popular_car.model}</p>
+                            <p>Средняя цена машин: {elem?.avg_car_price}</p>
+                            <p>Максимальная цена машины: {elem?.max_car_price}</p>
+                            <p>Самая популярная модель: {elem?.most_popular_car?.brand + ' ' + elem?.most_popular_car?.model}</p>
                         </div>
                     ))
                 }

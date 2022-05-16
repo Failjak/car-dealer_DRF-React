@@ -30,6 +30,8 @@ services:
       context: ./client
       dockerfile: Dockerfile
     container_name: dealer-frontend
+    environment:
+      - CHOKIDAR_USEPOLLING=true
     volumes:
       - react_build:/react/build
 

@@ -108,7 +108,7 @@ const Dealers = (props) => {
                                     <td>{elem.name}</td>
                                     <td>{elem.avg_car_price}</td>
                                     <td>{elem.max_car_price}</td>
-                                    <td>{elem.most_popular_car.brand + ' ' + elem.most_popular_car.model}</td>
+                                    <td>{elem?.most_popular_car?.brand + ' ' + elem?.most_popular_car?.model}</td>
                                 </tr>
                             ))
                         }
