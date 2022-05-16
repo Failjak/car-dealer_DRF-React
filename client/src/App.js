@@ -24,6 +24,11 @@ const App = () => {
         console.log(localStorage.getItem('token'), token)
     }, [localStorage])
 
+    const logut = () => {
+        localStorage.removeItem('token')
+        setToken(null)
+    }
+
     return (
         <>
             {
@@ -38,8 +43,8 @@ const App = () => {
                                     <li>
                                         <Link to="/dealers">Список диллеров</Link>
                                     </li>
-                                    <li>
-                                        <Link to="/logout">Выход</Link>
+                                    <li onClick={() => logut()}>
+                                        <a href="">Выход</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -47,8 +52,8 @@ const App = () => {
                                 <Route path="/" element={<Profile token={token}/>}/>
                                 <Route path="/dealers" element={<Dealers token={token}/>}/>
                                 <Route path="/dealers/:id" element={<Dealer token={token}/>}/>
-                                <Route path="/login" element={<Auth/>}/>
-                                <Route path="/logout" element={<Auth/>}/>
+                                {/* <Route path="/login" element={<Auth/>}/> */}
+                                {/* <Route path="/logout" element={<Auth/>}/> */}
                             </Routes>
                             <NotificationContainer/>
                         </div>
